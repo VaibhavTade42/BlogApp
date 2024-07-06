@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.entities.User;
+import com.blog.payload.ApiResponse;
 import com.blog.payload.UserDto;
 import com.blog.service.UserService;
 
@@ -31,34 +33,37 @@ public class UserController {
 	
 	@PostMapping("/save-user")
 	public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
-		UserDto createUserDto = userService.createUser(user);
+		UserDto createUserDto = this.userService.createUser(user);
 		return new ResponseEntity<UserDto>(createUserDto, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/update-userById/{id}")
 	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable("id") Long userId) {
-	   UserDto updatedUser = userService.updateUser(userDto, userId);
+	   UserDto updatedUser = this.userService.updateUser(userDto, userId);
 	   return ResponseEntity.ok(updatedUser);
 	}
 	
 	@GetMapping("/get-userById/{id}")
 	public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long userId) {
-		UserDto userDto =userService.getUserById(userId);
+		UserDto userDto =this.userService.getUserById(userId);
 		return ResponseEntity.ok(userDto);
 				//mapper.map(user, UserDto.class);
 	}
 	
 	@GetMapping("/getall-users")
 	public ResponseEntity<List<UserDto>> getAllUsers(){
-		List<UserDto> userList = userService.getAllUser();
+		List<UserDto> userList = this.userService.getAllUser();
 		return ResponseEntity.ok(userList);
 		
 	}
 	
 	@DeleteMapping("/delete-userById/{id}")
-	public ResponseEntity<String> deleteUserById(@PathVariable("id") Long userId) {
-		userService.deleteUserById(userId);
-		return ResponseEntity.ok("User deleted successfully with id: "+userId);
+	public ResponseEntity<ApiResponse> deleteUserById(@PathVariable("id") Long userId) {
+		this.userService.deleteUserById(userId);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("User successfully deleted with id: "+userId, 
+				true), HttpStatus.OK);
+	//return new ResponseEntity(Map.of("messege", "User successfully deleted with id: "+userId), HttpStatus.OK);
+		//return ResponseEntity.ok("User deleted successfully with id: "+userId);
 	}
 
 }
