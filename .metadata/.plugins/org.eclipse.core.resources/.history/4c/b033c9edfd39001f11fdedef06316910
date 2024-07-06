@@ -1,0 +1,11 @@
+package com.blog.exception;
+
+public class ResourceNotFoundException extends RuntimeException{
+	
+	private String messege;
+	
+	private Long userId;
+	
+	
+
+}

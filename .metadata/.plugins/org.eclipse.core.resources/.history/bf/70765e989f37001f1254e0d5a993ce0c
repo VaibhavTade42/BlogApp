@@ -1,0 +1,21 @@
+package com.blog.entities;
+
+import java.util.Date;
+
+public class Post {
+	
+	private Long postId;
+	
+	private String posTitle;
+	
+	private String content;
+	
+	private User userId;
+	
+	private String image;
+	
+	private Long categoryId;
+	
+	private Date postDate;
+
+}

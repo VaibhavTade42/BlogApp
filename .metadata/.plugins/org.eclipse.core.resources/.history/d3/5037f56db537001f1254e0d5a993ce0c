@@ -1,0 +1,9 @@
+package com.blog.service;
+
+import com.blog.payload.UserDto;
+
+public interface UserService {
+	
+	UserDto craeteUser(UserDto userDto);
+
+}

@@ -1,0 +1,13 @@
+package com.blog.entities;
+
+public class Comment {
+	
+	private Long commentId;
+	
+	private String comment;
+	
+	private Long postId;
+	
+	private User userId;
+
+}

@@ -1,0 +1,9 @@
+package com.blog.entities;
+
+public class Roll {
+	
+	private Long rollId;
+	
+	private String rollName;
+
+}

@@ -1,0 +1,62 @@
+package com.blog.service.impl;
+
+import java.util.List;
+
+
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.blog.entities.User;
+import com.blog.payload.UserDto;
+import com.blog.repository.UserRepository;
+import com.blog.service.UserService;
+
+@Service
+@Transactional
+
+public class UserServiceImpl implements UserService{
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private ModelMapper mapper;
+
+	@Override
+	public UserDto createUser(UserDto userDto) {
+	User savedUser = userRepository.save(mapper.map(userDto, User.class));
+	
+		return mapper.map(User.class, savedUser);
+	}
+	
+
+	@Override
+	public UserDto updateUser(UserDto userDto, Long userId) {
+		
+		return null;
+	}
+
+	@Override
+	public UserDto getUserById(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserDto> getAllUser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteUserById(Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
+}

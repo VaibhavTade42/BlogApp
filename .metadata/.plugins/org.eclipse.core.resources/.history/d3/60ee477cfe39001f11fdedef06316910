@@ -1,0 +1,13 @@
+package com.blog.exception;
+
+public class ResourceNotFoundException extends RuntimeException{
+	
+	private String resourceName;
+	
+	private String fieldName;
+	
+	private Long fieldValue;
+	
+	
+
+}
