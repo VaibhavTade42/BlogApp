@@ -42,9 +42,9 @@ public class UserController {
 	}
 	
 	@GetMapping("/get-userById/{id}")
-	public UserDto getUserById(@PathVariable("id") Long userId) {
+	public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long userId) {
 		UserDto userDto =userService.getUserById(userId);
-		return userDto;
+		return ResponseEntity.ok(userDto);
 				//mapper.map(user, UserDto.class);
 	}
 	
