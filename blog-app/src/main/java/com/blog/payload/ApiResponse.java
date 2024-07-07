@@ -1,5 +1,9 @@
 package com.blog.payload;
 
+import java.util.Date;
+
+import org.springframework.http.HttpStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +18,9 @@ public class ApiResponse {
 	private String messege;
 	
 	private boolean success;
+	
+	private Date date;
+	
+	private HttpStatus status;
 
 }

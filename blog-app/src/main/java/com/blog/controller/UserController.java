@@ -1,7 +1,10 @@
 package com.blog.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +35,13 @@ public class UserController {
 //	private ModelMapper mapper;
 	
 	@PostMapping("/save-user")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user){
 		UserDto createUserDto = this.userService.createUser(user);
 		return new ResponseEntity<UserDto>(createUserDto, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/update-userById/{id}")
-	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable("id") Long userId) {
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("id") Long userId) {
 	   UserDto updatedUser = this.userService.updateUser(userDto, userId);
 	   return ResponseEntity.ok(updatedUser);
 	}
@@ -61,7 +64,7 @@ public class UserController {
 	public ResponseEntity<ApiResponse> deleteUserById(@PathVariable("id") Long userId) {
 		this.userService.deleteUserById(userId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("User successfully deleted with id: "+userId, 
-				true), HttpStatus.OK);
+				true, new Date(), HttpStatus.OK), HttpStatus.OK );
 	//return new ResponseEntity(Map.of("messege", "User successfully deleted with id: "+userId), HttpStatus.OK);
 		//return ResponseEntity.ok("User deleted successfully with id: "+userId);
 	}
