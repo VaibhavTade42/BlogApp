@@ -3,6 +3,8 @@ package com.blog.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,27 +30,27 @@ public class CategoryController {
 	
 	//create category
 	@PostMapping("/save-category")
-	public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto){
-		CategoryDto savedCategory = categoryService.createCategory(categoryDto);
+	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto){
+		CategoryDto savedCategory = this.categoryService.createCategory(categoryDto);
 		return new ResponseEntity<CategoryDto>(savedCategory, HttpStatus.OK);
 		
 	}
 	
 	@PutMapping("/update-category/{id}")
-	public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable("id") Long categoryId ){
-		CategoryDto updatedCategory = categoryService.updateCategory(categoryDto, categoryId);
+	public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable("id") Long categoryId ){
+		CategoryDto updatedCategory = this.categoryService.updateCategory(categoryDto, categoryId);
 		return new ResponseEntity<CategoryDto>(updatedCategory, HttpStatus.OK);
 	}
 	
 	@GetMapping("/get-categoryById/{id}")
 	public ResponseEntity<CategoryDto> getCategoryById(@PathVariable("id") Long categoryId){
-	CategoryDto categoryDto =	categoryService.getCategoryById(categoryId);
+	CategoryDto categoryDto =	this.categoryService.getCategoryById(categoryId);
 	return ResponseEntity.ok(categoryDto);
 	}
 	
 	@GetMapping("/getall")
 		public ResponseEntity<List<CategoryDto>> getAllCatories(){
-		List<CategoryDto> categoryDto  = categoryService.getAllCategory();
+		List<CategoryDto> categoryDto  = this.categoryService.getAllCategory();
 		return ResponseEntity.ok(categoryDto);
 		}
 	

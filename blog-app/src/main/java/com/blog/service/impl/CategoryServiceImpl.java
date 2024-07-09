@@ -27,42 +27,42 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public CategoryDto createCategory(CategoryDto categoryDto) {
-		Category savedCategory = categoryRepository.save(mapper.map(categoryDto, Category.class));
+		Category savedCategory = this.categoryRepository.save(mapper.map(categoryDto, Category.class));
 		
 		return mapper.map(savedCategory, CategoryDto.class);
 	}
 
 	@Override
 	public CategoryDto updateCategory(CategoryDto categoryDto, Long categoryId) {
-		Category category = categoryRepository.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category", "id", categoryId));
+		Category category = this.categoryRepository.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category", "id", categoryId));
 		
 		category.setCategoryTitle(categoryDto.getCategoryTitle());
 		category.setCategoryDescription(categoryDto.getCategoryDescription());
-		return mapper.map(category, CategoryDto.class);
+		return this.mapper.map(category, CategoryDto.class);
 	}
 
 	@Override
 	public CategoryDto getCategoryById(Long categoryId) {
-	Category category =	categoryRepository.findById(categoryId)
+	Category category =	this.categoryRepository.findById(categoryId)
 			.orElseThrow(()-> new ResourceNotFoundException("Category", "id", categoryId));
 	
-		return mapper.map(category, CategoryDto.class);
+		return this.mapper.map(category, CategoryDto.class);
 	}
 
 	@Override
 	public List<CategoryDto> getAllCategory() {
 		return this.categoryRepository.findAll()
 				.stream() //Stream<Category>
-				.map(category -> mapper.map(category,CategoryDto.class)) //Stream <DTO>
+				.map(category -> this.mapper.map(category,CategoryDto.class)) //Stream <DTO>
 				.collect(Collectors.toList());//List<DTO>	
 	}
 
 	@Override
 	public void deleteCategoryById(Long categoryId) {
-		Category category = categoryRepository.findById(categoryId)
+		Category category = this.categoryRepository.findById(categoryId)
 				.orElseThrow(()-> new ResourceNotFoundException("Category", "id", categoryId));
 		
-		categoryRepository.deleteById(categoryId);
+		this.categoryRepository.deleteById(categoryId);
 		
 	}
 
