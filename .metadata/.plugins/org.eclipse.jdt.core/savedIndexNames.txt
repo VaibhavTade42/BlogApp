@@ -78,7 +78,6 @@ INDEX VERSION 1.131+C:\Projects\BlogApplicationRepo\BlogApp\.metadata\.plugins\o
 230428119.index
 3662898062.index
 3059743978.index
-443608951.index
 2224518041.index
 1099359906.index
 1088444589.index
