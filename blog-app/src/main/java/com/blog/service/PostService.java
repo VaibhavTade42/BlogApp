@@ -13,25 +13,25 @@ public interface PostService {
 	public PostDto createPost(PostDto postDto, Long userId, Long categoryId);
 	
 	//update
-	public Post updatePost(PostDto postDto, Long postId);
+	public PostDto updatePost(PostDto postDto, Long postId);
 	
 	//getPostById
-	public Post getPostById(Long postId);
+	public PostDto getPostById(Long postId);
 	
 	//get all post
-	public List<Post> getAllPost();
+	public List<PostDto> getAllPost();
 	
 	//deletePostById
 	public void deletePostById(Long postId);
 	
 	//get post by category
-	public List<Post> getPostByCategory(Long categoryId);
+	public List<PostDto> getPostByCategory(Long categoryId);
 	
 	//get post by user
-	public List<Post> getPostByUser(Long userId);
+	public List<PostDto> getPostByUser(Long userId);
 	
 	//search post by keywords
-	public List<Post> searchPost(String keyword);
+	public List<PostDto> searchPost(String keyword);
 	
 	
 

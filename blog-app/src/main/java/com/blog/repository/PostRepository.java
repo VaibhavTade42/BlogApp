@@ -15,7 +15,7 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 	public List<Post> findByUser(User user);
 	
 	//2. To find all post by category
-	public List<Category> findByUser(Category category);
+	public List<Post> findByCategory(Category category);
 	
 	
 	

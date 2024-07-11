@@ -2,6 +2,7 @@ package com.blog.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.blog.entities.Category;
 import com.blog.entities.Post;
 import com.blog.entities.User;
 import com.blog.exception.ResourceNotFoundException;
+import com.blog.payload.CategoryDto;
 import com.blog.payload.PostDto;
 import com.blog.repository.CategoryRepository;
 import com.blog.repository.PostRepository;
@@ -53,46 +55,60 @@ public class PostServiceImp implements PostService {
 		return mapper.map(savedPost, PostDto.class);
 	}
 
+	//Update Post
 	@Override
-	public Post updatePost(PostDto postDto, Long postId) {
+	public PostDto updatePost(PostDto postDto, Long postId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	//Get Post
 	@Override
-	public Post getPostById(Long postId) {
-		// TODO Auto-generated method stub
+	public PostDto getPostById(Long postId) {
+		
 		return null;
 	}
 
 	@Override
-	public List<Post> getAllPost() {
+	public List<PostDto> getAllPost() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+
+	@Override
+	public List<PostDto> getPostByCategory(Long categoryId) {
+		Category category = categoryRepository.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "id", categoryId));
+		
+	   List<Post> postList =  postRepository.findByCategory(category);
+		
+	   List<PostDto> postDtoList =	postList.stream().map((post)-> mapper.map(postList, PostDto.class)).collect(Collectors.toList());
+	   
+		return postDtoList;
+	}
+
+	@Override
+	public List<PostDto> getPostByUser(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "id", userId));
+		
+		List<Post> postList = postRepository.findByUser(user);
+		
+	List<PostDto> postDtoList =	postList.stream().map((post)-> mapper.map(postList, PostDto.class)).collect(Collectors.toList());
+		return postDtoList;
+	}
+
+	//Search Post
+	@Override
+	public List<PostDto> searchPost(String keyword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	//Delete Post
 	@Override
 	public void deletePostById(Long postId) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public List<Post> getPostByCategory(Long categoryId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Post> getPostByUser(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Post> searchPost(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
