@@ -6,7 +6,10 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.blog.entities.Category;
 import com.blog.entities.Post;
@@ -59,8 +62,14 @@ public class PostServiceImp implements PostService {
 	//Update Post
 	@Override
 	public PostDto updatePost(PostDto postDto, Long postId) {
-		// TODO Auto-generated method stub
-		return null;
+		Post post = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "post id", postId));
+		
+		post.setPostTitle(postDto.getPostTitle());
+		post.setContent(postDto.getContent());
+		post.setImageName(postDto.getImageName());
+		
+		Post updatedPost = postRepository.save(post);
+		return mapper.map(updatedPost, PostDto.class);
 	}
 
 	//Get Post by post id
@@ -70,6 +79,8 @@ public class PostServiceImp implements PostService {
 		return mapper.map(postList, PostDto.class);
 	}
 
+	
+	//Get all Post
 	@Override
     public List<PostDto> getAllPost() {
         List<Post> postList = postRepository.findAll();
@@ -103,18 +114,24 @@ public class PostServiceImp implements PostService {
 	}
 
 
-	//Search Post
-	@Override
-	public List<PostDto> searchPost(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	
 	//Delete Post
 	@Override
 	public void deletePostById(Long postId) {
-		// TODO Auto-generated method stub
+		Post post = postRepository.findById(postId)
+				.orElseThrow(()-> new ResourceNotFoundException("Post", "post id", postId));
+		postRepository.delete(post);
 		
 	}
+
+	//search post by keywords
+	 @Override
+	    public List<PostDto> searchPost(String title) {
+	        List<Post> postList = postRepository.findTitleContaining(title);
+	        return postList.stream()
+	                       .map(post -> mapper.map(post, PostDto.class))
+	                       .collect(Collectors.toList());
+	    }
 
 }

@@ -17,6 +17,9 @@ import lombok.Setter;
 public class PostDto {
 	
 	@NotEmpty
+	private Long postId;
+	
+	@NotEmpty
 	@Size(min = 4, max= 25, message="Post Title must be of min 4 characters and max of 25 characters")
 	private String postTitle;
 	
