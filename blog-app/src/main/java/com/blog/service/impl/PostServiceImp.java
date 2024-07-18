@@ -34,6 +34,7 @@ public class PostServiceImp implements PostService {
 	@Autowired
 	CategoryRepository categoryRepository;
 
+	//create post with user and category
 	@Override
 	public PostDto createPost(PostDto postDto, Long userId, Long categoryId) {
 		
@@ -62,40 +63,45 @@ public class PostServiceImp implements PostService {
 		return null;
 	}
 
-	//Get Post
+	//Get Post by post id
 	@Override
 	public PostDto getPostById(Long postId) {
-		
-		return null;
+	Post postList =	postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "post id", postId));
+		return mapper.map(postList, PostDto.class);
 	}
 
 	@Override
-	public List<PostDto> getAllPost() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<PostDto> getAllPost() {
+        List<Post> postList = postRepository.findAll();
+        List<PostDto> postDtoList = postList.stream()
+                                            .map(post -> mapper.map(post, PostDto.class))
+                                            .collect(Collectors.toList());
+        return postDtoList;
+    }
 
-
+	//Get Post By Category id
 	@Override
 	public List<PostDto> getPostByCategory(Long categoryId) {
-		Category category = categoryRepository.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "id", categoryId));
-		
-	   List<Post> postList =  postRepository.findByCategory(category);
-		
-	   List<PostDto> postDtoList =	postList.stream().map((post)-> mapper.map(postList, PostDto.class)).collect(Collectors.toList());
-	   
-		return postDtoList;
+	    Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+
+	    List<Post> postList = postRepository.findByCategory(category);
+
+	    List<PostDto> postDtoList = postList.stream().map((post) -> mapper.map(post, PostDto.class)).collect(Collectors.toList());
+
+	    return postDtoList;
 	}
 
+	//Get Post by User id
 	@Override
 	public List<PostDto> getPostByUser(Long userId) {
-		User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "id", userId));
-		
-		List<Post> postList = postRepository.findByUser(user);
-		
-	List<PostDto> postDtoList =	postList.stream().map((post)-> mapper.map(postList, PostDto.class)).collect(Collectors.toList());
-		return postDtoList;
+	    User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+	    List<Post> postList = postRepository.findByUser(user);
+
+	    List<PostDto> postDtoList = postList.stream().map((post) -> mapper.map(post, PostDto.class)).collect(Collectors.toList());
+	    return postDtoList;
 	}
+
 
 	//Search Post
 	@Override

@@ -2,7 +2,7 @@ package com.blog.payload;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -19,10 +19,10 @@ public class UserDto {
 	
 	//@NotNull
 	@NotEmpty //=@NotNull + @NotBlank
-	@Size(min=4,message="Username must minimum of 4 characters")
+	@Size(min=4, max = 25,message="Username must minimum of 4 characters and max 25 characters")
 	private String name;
 	
-	@NotNull
+	@NotEmpty
 	@Email(message = "Email is not valid")
 	private String email;
 	
