@@ -6,6 +6,7 @@ import com.blog.entities.Category;
 import com.blog.entities.Post;
 import com.blog.entities.User;
 import com.blog.payload.PostDto;
+import com.blog.payload.PostResponse;
 
 public interface PostService {
 	
@@ -19,7 +20,7 @@ public interface PostService {
 	public PostDto getPostById(Long postId);
 	
 	//get all post
-	public List<PostDto> getAllPost();
+	public PostResponse getAllPost(Integer pageNumber, Integer pageSize);
 	
 	//deletePostById
 	public void deletePostById(Long postId);
@@ -30,8 +31,8 @@ public interface PostService {
 	//get post by user
 	public List<PostDto> getPostByUser(Long userId);
 	
-	//search post by keywords
-	public List<PostDto> searchPost(String keyword);
+	//search post by title
+	List<PostDto> findByPostTitleContainingIgnoreCase(String keyword);
 	
 	
 

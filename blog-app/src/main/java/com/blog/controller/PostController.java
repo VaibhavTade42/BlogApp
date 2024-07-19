@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.payload.ApiResponse;
 import com.blog.payload.PostDto;
+import com.blog.payload.PostResponse;
 import com.blog.service.PostService;
 
 
@@ -31,6 +34,10 @@ public class PostController {
 	private PostService postService;
 	
 	
+//	    public PostController(PostService postService) {
+//	        this.postService = postService;
+//	    }
+		
 	@PostMapping("/user/{userId}/category/{categoryId}/posts")
 	public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto,
 			                                  @PathVariable Long userId,
@@ -42,8 +49,9 @@ public class PostController {
 		return new ResponseEntity<PostDto>(savedPost, HttpStatus.CREATED);
 	}
 	
+	//Update Post
 	@PutMapping("/update/{postId}/posts")
-	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Long postId){
+	public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable Long postId){
 		PostDto updatePost = postService.updatePost(postDto, postId);
 		return ResponseEntity.ok(updatePost);
 	}
@@ -73,10 +81,14 @@ public class PostController {
 	
 	//Get all posts
 	@GetMapping("/getall/posts")
-    public ResponseEntity<List<PostDto>> getAllPosts() {
-        List<PostDto> listPostDto = postService.getAllPost();
-        return new ResponseEntity<>(listPostDto, HttpStatus.OK);
-    }
+	public ResponseEntity<PostResponse> getAllPosts(
+			@RequestParam(value="pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+			@RequestParam(value="pageSize", defaultValue = "4", required = false) Integer pageSize
+			) {
+		
+	     PostResponse postResponse = postService.getAllPost(pageNumber, pageSize);
+	    return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
+	}
 	
 	//Delete post by post id
 	@DeleteMapping("/delete-postById/{postId}")
@@ -86,12 +98,12 @@ public class PostController {
 				true, new Date(), HttpStatus.OK), HttpStatus.OK );
 	}
 	
-	//search post using keyword
-//	@GetMapping("/search/posts")
-//	public ResponseEntity<List<PostDto>> searchPost(@RequestParam String title){
-//		List<PostDto> allPosts = postService.searchPost(title);
-//		return new ResponseEntity<>(allPosts, HttpStatus.OK);
-//	}
+//	search post using keyword
+	@GetMapping("/search/posts")
+	public ResponseEntity<List<PostDto>> searchPost(@RequestParam("title") String title){
+		List<PostDto> allPosts = postService.findByPostTitleContainingIgnoreCase(title);
+		return new ResponseEntity<>(allPosts, HttpStatus.OK);
+	}
 
 	
 

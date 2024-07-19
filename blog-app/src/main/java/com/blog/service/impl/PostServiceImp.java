@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import com.blog.entities.User;
 import com.blog.exception.ResourceNotFoundException;
 import com.blog.payload.CategoryDto;
 import com.blog.payload.PostDto;
+import com.blog.payload.PostResponse;
 import com.blog.repository.CategoryRepository;
 import com.blog.repository.PostRepository;
 import com.blog.repository.UserRepository;
@@ -82,12 +86,28 @@ public class PostServiceImp implements PostService {
 	
 	//Get all Post
 	@Override
-    public List<PostDto> getAllPost() {
-        List<Post> postList = postRepository.findAll();
-        List<PostDto> postDtoList = postList.stream()
-                                            .map(post -> mapper.map(post, PostDto.class))
-                                            .collect(Collectors.toList());
-        return postDtoList;
+    public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
+		
+		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		
+        Page<Post> pagePost = postRepository.findAll(pageable);
+                              
+        List<Post> allPosts = pagePost.getContent(); 
+        
+        List<PostDto> postDtoList = allPosts.stream()
+                    .map(post -> mapper.map(post, PostDto.class))
+                    .collect(Collectors.toList());
+        
+        PostResponse postResponse = new PostResponse();
+        
+        postResponse.setContent(postDtoList);
+        postResponse.setPageNumber(pagePost.getNumber());
+        postResponse.setPageSize(pagePost.getSize());
+        postResponse.setTotalElements(pagePost.getTotalElements());
+        postResponse.setTotalPages(pagePost.getTotalPages());
+        postResponse.setLastPage(pagePost.isLast());
+        
+        return postResponse;
     }
 
 	//Get Post By Category id
@@ -125,13 +145,13 @@ public class PostServiceImp implements PostService {
 		
 	}
 
-	//search post by keywords
-	 @Override
-	    public List<PostDto> searchPost(String title) {
-	        List<Post> postList = postRepository.findTitleContaining(title);
-	        return postList.stream()
-	                       .map(post -> mapper.map(post, PostDto.class))
-	                       .collect(Collectors.toList());
-	    }
+	//search post by title
+	@Override
+	public List<PostDto> findByPostTitleContainingIgnoreCase(String keyword) {
+		
+		 List<Post> postList =  postRepository.findByPostTitleContainingIgnoreCase(keyword);
+		 List<PostDto> postDtoList = postList.stream().map((post) -> mapper.map(post, PostDto.class)).collect(Collectors.toList());
+		    return postDtoList;
+	}
 
 }

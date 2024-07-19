@@ -16,11 +16,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PostDto {
 	
-	@NotEmpty
+	
 	private Long postId;
 	
 	@NotEmpty
-	@Size(min = 4, max= 25, message="Post Title must be of min 4 characters and max of 25 characters")
+	@Size(min = 4, max= 100, message="Post Title must be of min 4 characters and max of 100 characters")
 	private String postTitle;
 	
 	@NotEmpty
