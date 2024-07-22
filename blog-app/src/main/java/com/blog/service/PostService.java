@@ -20,7 +20,7 @@ public interface PostService {
 	public PostDto getPostById(Long postId);
 	
 	//get all post
-	public PostResponse getAllPost(Integer pageNumber, Integer pageSize);
+	public PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDirection);
 	
 	//deletePostById
 	public void deletePostById(Long postId);
