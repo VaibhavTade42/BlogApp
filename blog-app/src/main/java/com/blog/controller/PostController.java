@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.config.AppConstants;
 import com.blog.payload.ApiResponse;
 import com.blog.payload.PostDto;
 import com.blog.payload.PostResponse;
@@ -81,11 +82,12 @@ public class PostController {
 	
 	//Get all posts
 	@GetMapping("/getall/posts")
+	
 	public ResponseEntity<PostResponse> getAllPosts(
-			@RequestParam(value="pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value="pageSize", defaultValue = "4", required = false) Integer pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
-			@RequestParam(value="sortDirection", defaultValue="asc", required=false) String sortDirection
+			@RequestParam(value="pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+			@RequestParam(value="pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+			@RequestParam(value="sortDirection", defaultValue=AppConstants.SORT_DIRECTION, required=false) String sortDirection
 			) {
 		
 	     PostResponse postResponse = postService.getAllPost(pageNumber, pageSize, sortBy, sortDirection);
@@ -100,7 +102,7 @@ public class PostController {
 				true, new Date(), HttpStatus.OK), HttpStatus.OK );
 	}
 	
-//	search post using keyword
+//	search post using keyword(title)
 	@GetMapping("/search/posts")
 	public ResponseEntity<List<PostDto>> searchPost(@RequestParam("title") String title){
 		List<PostDto> allPosts = postService.findByPostTitleContainingIgnoreCase(title);
