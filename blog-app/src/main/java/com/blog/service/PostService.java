@@ -26,10 +26,10 @@ public interface PostService {
 	public void deletePostById(Long postId);
 	
 	//get post by category
-	public List<PostDto> getPostByCategory(Long categoryId);
+	public PostResponse getPostByCategory(Long categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortDirection);
 	
 	//get post by user
-	public List<PostDto> getPostByUser(Long userId);
+	public PostResponse getPostByUser(Long userId, Integer pageNumber, Integer pageSize, String sortBy, String sortDirection);
 	
 	//search post by title
 	List<PostDto> findByPostTitleContainingIgnoreCase(String keyword);

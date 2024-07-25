@@ -59,17 +59,30 @@ public class PostController {
 	
 	//Get Post by User id
 	@GetMapping("/user/{userId}/posts")
-	public ResponseEntity<List<PostDto>> getPostByUser(@PathVariable Long userId){
-		List<PostDto> postListDto = postService.getPostByUser(userId);
-		return new ResponseEntity<List<PostDto>>(postListDto, HttpStatus.OK);
+	public ResponseEntity<PostResponse> getPostByUser(@PathVariable Long userId,
+			@RequestParam(value="pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+			@RequestParam(value="pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+			@RequestParam(value="sortDirection", defaultValue=AppConstants.SORT_DIRECTION
+			, required=false) String sortDirection
+			){
+		PostResponse postResponse = postService.getPostByUser(userId, pageNumber, pageSize, sortBy, sortDirection);
+		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 	
 	//Get Post by Category id
 	@GetMapping("/category/{categoryId}/posts")
-	public ResponseEntity<List<PostDto>> getPostByCategory(@PathVariable Long categoryId){
+	public ResponseEntity<PostResponse> getPostByCategory(@PathVariable Long categoryId, 
+			@RequestParam(value="pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+			@RequestParam(value="pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+			@RequestParam(value="sortDirection", defaultValue=AppConstants.SORT_DIRECTION
+			, required=false) String sortDirection
+			)
+	{
 		
-		List<PostDto> postListDto =	postService.getPostByCategory(categoryId);
-		return new ResponseEntity<List<PostDto>>(postListDto, HttpStatus.OK);
+		PostResponse postResponse =	postService.getPostByCategory(categoryId, pageNumber, pageSize, sortBy, sortDirection);
+		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 	
 	//Get post by Post Id
@@ -87,12 +100,15 @@ public class PostController {
 			@RequestParam(value="pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
 			@RequestParam(value="pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
 			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
-			@RequestParam(value="sortDirection", defaultValue=AppConstants.SORT_DIRECTION, required=false) String sortDirection
+			@RequestParam(value="sortDirection", defaultValue=AppConstants.SORT_DIRECTION
+			, required=false) String sortDirection
 			) {
 		
 	     PostResponse postResponse = postService.getAllPost(pageNumber, pageSize, sortBy, sortDirection);
 	    return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
+	
+	
 	
 	//Delete post by post id
 	@DeleteMapping("/delete-postById/{postId}")
