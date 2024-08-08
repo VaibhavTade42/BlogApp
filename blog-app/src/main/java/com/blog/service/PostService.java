@@ -33,6 +33,9 @@ public interface PostService {
 	
 	//search post by title
 	List<PostDto> findByPostTitleContainingIgnoreCase(String keyword);
+
+	//search post by content
+	public List<PostDto> findByContentContainingIgnoreCase(String content);
 	
 	
 

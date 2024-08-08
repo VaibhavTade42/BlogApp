@@ -119,10 +119,17 @@ public class PostController {
 	}
 	
 //	search post using keyword(title)
-	@GetMapping("/search/posts")
-	public ResponseEntity<List<PostDto>> searchPost(@RequestParam("title") String title){
+	@GetMapping("/search-by-post_title")
+	public ResponseEntity<List<PostDto>> searchPostByTitle(@RequestParam("title") String title){
 		List<PostDto> allPosts = postService.findByPostTitleContainingIgnoreCase(title);
 		return new ResponseEntity<>(allPosts, HttpStatus.OK);
+	}
+	
+//	search post using post content
+	@GetMapping("/search-by-post_content")
+	public ResponseEntity<List<PostDto>> searchPostByContent(@RequestParam("content") String content){
+		List<PostDto> allPostsByContent = postService.findByContentContainingIgnoreCase(content);
+		return new ResponseEntity<>(allPostsByContent, HttpStatus.OK);
 	}
 
 	

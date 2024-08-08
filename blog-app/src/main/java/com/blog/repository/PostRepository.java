@@ -24,12 +24,15 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 	//2. To find all post by category
 	public Page<Post> findByCategory(Category category, Pageable pageable);
 
-	//search post using title
+	
 //	@Query("SELECT p FROM Post p WHERLE p.title LIKE %:title%")
 //    List<Post> findTitleContainingKeywords(@Param("title") String title);
 	
-	
+	//search post using post title
 	public List<Post> findByPostTitleContainingIgnoreCase(String title);
+
+	//search post using post content
+	public List<Post> findByContentContainingIgnoreCase(String content);
 	
 	
 	

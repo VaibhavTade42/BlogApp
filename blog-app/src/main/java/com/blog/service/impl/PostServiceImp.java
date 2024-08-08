@@ -217,4 +217,13 @@ public class PostServiceImp implements PostService {
 		    return postDtoList;
 	}
 
+	//search post by content
+	@Override
+	public List<PostDto> findByContentContainingIgnoreCase(String content) {
+
+		 List<Post> postList =  postRepository.findByContentContainingIgnoreCase(content);
+		 List<PostDto> postDtoList = postList.stream().map((post) -> mapper.map(post, PostDto.class)).collect(Collectors.toList());
+		    return postDtoList;
+	}
+
 }
