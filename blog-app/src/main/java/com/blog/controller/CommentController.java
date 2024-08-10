@@ -34,7 +34,7 @@ public class CommentController {
 	{
 		CommentDto savedcommentDto = commentService.createComment(commentDto, postId);
 		
-		return new ResponseEntity<>(commentDto, HttpStatus.OK);
+		return new ResponseEntity<>(savedcommentDto, HttpStatus.OK);
 	}
 	
 	

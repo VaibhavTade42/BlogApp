@@ -1,5 +1,10 @@
 package com.blog.payload;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -38,5 +43,8 @@ public class UserDto {
 	@Size(min=10, message = "Minimum 10 characters required")
 	private String about;
 	
+	private List<PostDto> posts = new ArrayList<>();
+	
+	//private List<CommentDto> comments = new ArrayList<>();
 
 }
