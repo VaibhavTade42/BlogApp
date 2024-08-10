@@ -33,7 +33,7 @@ public class Comment {
 	private Post post;
 	
 //	@Column(name = "user")
-	@ManyToOne()
-	private User user;
+//	@ManyToOne()
+//	private User user;
 
 }

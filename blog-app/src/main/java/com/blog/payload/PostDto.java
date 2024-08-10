@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.blog.entities.Comment;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,7 +39,8 @@ public class PostDto {
 	
 	private CategoryDto category;
 	
-	//private UserDto user;
+	@JsonIgnoreProperties({"posts"})
+	private UserDto user;
 	
 	private Set<CommentDto> comments = new HashSet<>();
 	

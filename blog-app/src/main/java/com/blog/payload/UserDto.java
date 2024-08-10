@@ -11,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,6 +45,7 @@ public class UserDto {
 	@Size(min=10, message = "Minimum 10 characters required")
 	private String about;
 	
+	@JsonIgnoreProperties({"user"})
 	private List<PostDto> posts = new ArrayList<>();
 	
 	//private List<CommentDto> comments = new ArrayList<>();
